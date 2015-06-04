@@ -50,11 +50,18 @@ class Zone{
     return false;
   }
   
-  void attack(Zone z2){
-    if(connect.contains(z2)){
+  void attack(Zone z2){ //should be run through the map for better control
+    if(connect.contains(z2)&&army>0){
+      float army1=army*nat.getRating();
+      float army2=z2.getArmy()*z2.getNation().getRating()*2; //defenders get *2 bonus
+      float surv=army1-army2;
+      float winrat;
+      if(army1>=army2)
+        winrat=nat.getRating();
+      else
+        winrat=z2.getNation().getRating();
+      z2.setArmy(abs(surv)/winrat/2);
       setArmy(0);
-      float surv=army*nat.getRating()-z2.getArmy()*z2.getNation().getRating();
-      z2.setArmy(abs(surv));
     }
   }
   
